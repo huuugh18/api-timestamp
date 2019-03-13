@@ -23,8 +23,17 @@ app.get("/", function (req, res) {
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
+// The API endpoint is GET [project_url]/api/timestamp/:date_string?
 
-
+app.get('/api/timestamp/:date_string?', (req,res) => {
+  const dateReq = req.params.date_string
+  console.log('dateReq:', dateReq)
+  const parsedDate = !dateReq ? new Date() : new Date(dateReq);
+  console.log('Date is:',parsedDate);
+  return res.json({unix: parsedDate.getTime(), utc: parsedDate.toUTCString()});
+  
+  
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
